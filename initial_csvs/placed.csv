@@ -1,0 +1,15 @@
+Weapon Name,Damage Per Shot,Area of Effect,Action Point Cost,Damage Per Action Point,Weapon Weight,Weapon Value in Caps,Value to Weight Ratio,Skill Required,Strength Required,Dependency,Unique?,Secondary Effect,Secondary Effect Damage
+Bottlecap mine,1,256,35,5.74,0.5,150,300,0,1,main,F,Explosive,200
+C-4 plastic explosive,1,512,24,10.45,0.5,1000,2000,50,1,main,F,Explosive,250
+Demolition charge,2,192,38,2.68,1.5,75,50,0,1,Dead Money,F,Explosive,100
+Detonator,0,0,0,0,0.5,25,50,0,0,main,F,NA,NA
+Fat mine,5,1400,35,13,3.25,275,84.62,50,3,gun runner’s arsenal,F,Explosive,450
+Frag mine,1,192,35,2.88,0.5,75,150,25,1,main,F,Explosive,100
+Gas bomb ,1,600,24,5.2,5,100,20,50,1,Dead Money,F,Explosive,80
+MFC cluster,1,600,35,12.9,0.5,110,220,50,2,gun runner’s arsenal,F,Explosive,450
+Plasma mine,1,192,35,4.31,0.5,300,600,75,2,main,F,Explosive,150
+Powder charge,1,192,35,2.17,0.5,25,50,0,1,main,F,Explosive,75
+Pulse mine,1,450,35,0.31,0.5,40,80,50,2,main,F,"Explosive, EMP","10, 200"
+Satchel charge,1,384,35,7.17,0.75,125,166.66,50,4,lonesome road,F,Explosive,250
+Time bomb,1,1024,24,6.29,0.5,750,1500,50,1,main,F,Explosive,150
+"Time bomb, high yield",1,1536,24,16.71,0.5,750,1500,50,1,gun runner’s arsenal,F,Explosive,400

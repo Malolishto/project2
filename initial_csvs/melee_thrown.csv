@@ -1,0 +1,15 @@
+Weapon Name,Damage Per Shot,Damage Per Second,Rate of Fire,Critical Chance Multiplier,Critical Hit Damage,Action Point Cost,Damage Per Action Point,Weapon Spread ,Weapon Weight,Weapon Value in Caps,Value to Weight Ratio,Skill Required,Strength Required,Dependency,Unique?,Secondary Effect,Secondary Effect Damage
+" 
+Proton throwing axe",40,32.2,0.8,x1 ,29,20,5.5,0,1,100,100,25,1,old world blues,F,EMP,50
+" 
+Protonic inversal throwing axe",60,52.7,0.88,x1 ,29,22,5.5,0,1,200,200,25,1,old world blues,F,EMP,50
+" 
+Throwing hatchet ",20,17.6,0.88,x1 ,20,22,1.8,0,2,20,10,25,1,main,F,NA,NA
+" 
+Throwing knife",15,48.2,3.2,x2 ,15,20,1.5,0,0.5,20,40,0,1,main,F,NA,NA
+" 
+Throwing knife spear ",42,20.2,0.48,x1 ,42,28,3,0,0.65,25,38.5,25,1,main,F,NA,NA
+" 
+Throwing spear ",50,30,0.6,x1 ,50,24,4.2,0,0.5,25,50,25,1,main,F,NA,NA
+" 
+Tomahawk ",30,19.8,0.66,x1 ,30,23,2.6,0,0.5,75,37.5,50,3,honest hearts,F,NA,NA

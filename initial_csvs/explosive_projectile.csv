@@ -1,0 +1,15 @@
+Weapon Name,Damage Per Shot,Area of Effect,Damage Per Second,Rate of Fire,Action Point Cost,Damage Per Action Point,Weapon Spread,Ammunition Type,Magazine Capacity,Weapon Durability in Shots Until Breaking,Weapon Weight,Weapon Value in Caps,Value to Weight Ratio,Skill Required,Strength Required,Dependency,Unique?,Secondary Effect,Secondary Effect Damage
+25 mm grenade APW,2,550,130,2.5,25,2.1,0.7,25mm,6,745,8,4200,525,75,5,Gun Runner's Arsenal,F,Explosive,50
+Fat man,400,1700,275.2,1.58,65,15.4,0.5,Mini nuke,1,495,30,6000,200,100,8,Main,F,Explosive,600
+Esther,475,1700,304.7,1.89,55,19.5,0.5,Mini nuke,1,620,40,18000,450,100,8,Gun Runner's Arsenal,T,Explosive,600
+Grenade machinegun,0,550,150,3,50,1,1,25mm,30,995,15,5200,347,100,8,Main,F,Explosive,50
+Mercy,5,750,325.5,3.1,50,2.1,1,40mm,18,2495,15,5200,347,100,8,Main,T,Explosive,100
+Grenade launcher,30,750,57.4,0.6,35,3.71,0.7,40mm,4,495,12,4200,350,75,5,Main,F,Explosive,100
+grenade rifle,2,750,41.4,2.14,35,2.9,1,40mm,1,495,6,300,50,25,3,Main,F,Explosive,100
+great bear grenade rifle,15,750,46.6,2.14,32,3.6,0.5,40mm,1,1245,5,950,190,25,3,Lonesome Road,T,Explosive,100
+mercenary's grenade rifle,2,750,41.4,2.14,35,2.9,1,40mm,1,495,5.5,300,55,0,3,Courier's Stash,T,Explosive,100
+red victory grenade rifle,2,750,41.4,2.14,35,2.9,1,40mm,1,495,5.5,300,55,0,3,Lonesome Road,T,Explosive,100
+thump-thump,2,750,43.2,2.79,35,2.9,0.8,40mm,1,620,5.5,800,145,25,3,Main,T,Explosive,100
+missile launcher,125,1000,70.1,1.58,55,5.9,0.3,Missile,1,245,20,3900,195,75,6,Main,F,Explosive,200
+annabelle,150,1000,77.3,1.89,47,7.4,0.02,Missile,1,495,15,5200,347,75,5,Main,T,Explosive,200
+red glare,20,500,240,4,25,2.4,0.5,Rocket,13,2245,20,15000,750,100,6,Lonesome Road,F,Explosive,40

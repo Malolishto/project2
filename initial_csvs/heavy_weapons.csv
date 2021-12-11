@@ -1,0 +1,6 @@
+Weapon Name,Damage Per Shot,Damage Per Second,Rate of Fire,Critical Chance Multiplier,Critical Hit Damage,Action Point Cost,Damage Per Action Point,Weapon Spread,Ammunition Type,Magazine Capacity,Weapon Durability in Shots Until Breaking,Weapon Weight,Weapon Value in Caps,Value to Weight Ratio,Skill Required,Strength Required,Dependency,Unique?
+K9000 cyberdog gun,26,182,7,x0.5,13,27,2.9,1.35,.357 Magnum,50,2495,27,7500,278,75,8,Old World Blues,F
+FIDO,36,252,7,x0.5,18,28,3.9,1.5,.44 Magnum,50,2495,27,9500,352,85,9,Old World Blues,T
+Minigun,12,240,20,x0.5,12,30,3.2,1,5mm,240,5995,25,5500,220,100,10,Main,F
+CZ57 Avenger,13,390,30,x0.5,13,25,6.24,0.55,5mm,120,7995,18,8500,340,100,10,Main,T
+Shoulder mounted machine gun,30,210,7,x0,20,30,3,0.9,10mm,60,3995,17,7500,442,75,7,Lonesome Road,F

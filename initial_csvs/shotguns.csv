@@ -1,0 +1,19 @@
+Weapon Name,Damage Per Shot,Damage Per Second,Rate of Fire,Critical Chance Multiplier,Critical Hit Damage,Action Point Cost,Damage Per Action Point,Weapon Spread,Ammo Type,Magazine Capacity,Weapon Durability in Shots Until Breaking,Weapon Weight,Weapon Value in Caps,Value to Weight Ratio,Skill Required,Strength Required,Dependency,Unique?
+Caravan shotgun,"045
+(6.4 x7) ",144.6,3.21,x1 ,6,20,2.25,2.2,20 gauge ,2,695,3,675,225,25,3,Main,F
+Sturdy caravan shotgun ,"050
+(7.1 x7) ",160.7,3.21,x1 ,7,27,1.85,4,20 gauge ,2,1495,3,875,292,0,3,Courier’s Stash,T
+Hunting shotgun,"070
+(10 x7) ",116.7,1.67,x1 ,10,28,2.5,1.5,12 gauge ,5,995,7.5,3800,507,75,5,Main,F
+Dinner Bell,"075
+(10.7 x7) ",125,1.67,x1 ,11,28,2.67,1.2,12 gauge ,5,745,7.5,4800,640,75,5,Main,T
+Lever-action shotgun ,"048
+(6.9 x7) ",84.9,1.8,x1 ,7,25,1.92,1.9,20 gauge ,5,495,3,2000,667,50,4,Main,F
+Riot shotgun,"067
+(9.5 x7) ",268,4,x1 ,10,17,3.94,2.5,12 gauge ,12,870,5,5500,1100,100,7,Main,F
+Sawed-off shotgun,"100
+(7.1 x14) ",28.2,2.34,x1 ,7,37,2.7,4,12 gauge ,2,395,4,1950,488,50,4,Main,F
+Big Boomer,"120
+(8.6 x14) ",34.2,2.58,x1 ,9,35,3.43,3.5,12 gauge ,2,395,4,2500,625,50,4,Main,T
+Single shotgun,"050
+(7.1 x7) ",20.9,2.6,x1 ,7,50,1,1.4,20 gauge ,1,995,7,175,25,0,5,Main,F

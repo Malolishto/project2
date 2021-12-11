@@ -46,76 +46,386 @@ class_diag <- function(score, truth, positive, cutoff=.5){
 
 # Mining, Classification, Prediction
 
-## Name and EID here
+## Jacob Risch, jwr2595
 
 ### Introduction 
 
-Paragraph or two introducing your datasets and variables, why they are interesting to you, etc. See instructions for more information
+  - Introduce your dataset and each of your variables (or just your main variables if you have lots) in a paragraph. Where did you find the data? What are each of the variables measuring? How many observations are there? How many of observations are there per group for your categorical/binary variable(s)?
+  
+  This project will analyze the weapons found in the 2010 role-playing game *Fallout New Vegas*. The combined dataset will have one weapon per observation, with numerous numeric and categorical variables describing the weapon's combat statistics (such as damage, rate of fire, strength required, etc). There are categorical variables describing which dependency the weapon is located in (e.g., which downloadable content (DLC) the weapon bundled with, or "main" if in no DLC), a binary variable describing if the weapon is one-of-a-kind (unique?) and weapon type. The amount of applicable variables per weapon type will differ, and variables that do not apply to certain weapons will take the NA value for that weapon. I found the data on the *Fallout: New Vegas* wiki site, where all weapon info is found on a special page, found [here](https://fallout.fandom.com/wiki/Fallout:_New_Vegas_weapons/Comparison), however I edited some values in the dataset when I noticed that they didn't accurately reflect the weapon or when I considered some values excessively informative. In all, there are 243 individual observations, comprised of 12 energy heavy weapons, 17 energy pistols, 15 energy rifles, 14  explosive projectiles, 12 thrown explosives, 5 ballistic heavy weapons, 33 bladed melee weapons, 21 blunt melee weapons, 33 unarmed weapons, 7 thrown melee weapons, 18 pistols, 14 placed weapons,25 rifles, 9 shotguns, and 8 SMGs. There are 167 common weapons and 76 unique weapons.
 
 ```{R}
 library(tidyverse)
 # read your datasets in here, e.g., with read_csv()
 
-# if your dataset needs tidying, do so here
+#Loading of individual datasets, all of which differ by weapon type (except for 
+#melee, which includes numerous different types). Every variable is converted to
+#a char, which helps with tidying, and lowercased. Probably should've made a 
+#function for this. Oh well!
 
-# any other code here
+energy_heavy_weapons <- read_csv("initial_csvs/energy_heavy_weapons.csv") %>% mutate(Type = "energy_heavy_weapons") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+energy_pistols <- read_csv("initial_csvs/energy_pistols.csv") %>% mutate(Type = "energy_pistols") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+energy_rifles <- read_csv("initial_csvs/energy_rifles.csv")%>% mutate(Type = "energy_rifles") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+explosive_projectile <- read_csv("initial_csvs/explosive_projectile.csv")%>% mutate(Type = "explosive_projectile") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+explosive_thrown <- read_csv("initial_csvs/explosive_thrown.csv")%>% mutate(Type = "explosive_thrown") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+heavy_weapons <- read_csv("initial_csvs/heavy_weapons.csv")%>% mutate(Type = "heavy_weapons") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+melee <- read_csv("initial_csvs/melee.csv")%>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+melee_thrown <- read_csv("initial_csvs/melee_thrown.csv")%>% mutate(Type = "melee_thrown") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+pistols <- read_csv("initial_csvs/pistols.csv")%>% mutate(Type = "pistols") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+placed <- read_csv("initial_csvs/placed.csv")%>% mutate(Type = "placed") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+rifles <- read_csv("initial_csvs/rifles.csv")%>% mutate(Type = "rifles") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+shotguns <- read_csv("initial_csvs/shotguns.csv")%>% mutate(Type = "shotguns") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+smgs <- read_csv("initial_csvs/smgs.csv")%>% mutate(Type = "smgs") %>% summarise_all(as.character) %>% summarize_all(tolower) 
+
+# if your dataset needs tidying, do so here
+#All datasets are combined into dataframe "fnv"
+
+fnv <- energy_heavy_weapons %>% bind_rows(pistols) %>% bind_rows(energy_pistols) %>%
+  bind_rows(energy_rifles) %>% bind_rows(explosive_projectile) %>% bind_rows(explosive_thrown) %>%
+  bind_rows(heavy_weapons) %>% bind_rows(melee) %>% bind_rows(melee_thrown) %>% 
+  bind_rows(placed) %>% bind_rows(rifles) %>% bind_rows(shotguns) %>%
+  bind_rows(smgs)
+
+
+#The variables "ammo type" and "ammunition type" are the same, and need to be 
+#joined.
+fnv <- fnv %>% unite("Ammunition Type", c("Ammo Type", "Ammunition Type"), remove= T, na.rm = T, sep = "")
+
+#I need to replace all empty cells and "na" values to NA.
+
+fnv2 <- fnv %>% na_if("") %>% na_if("na")
+
+#The below lines are for answering questions regarding the number of observations
+#required in the descriptive paragraph for this part. 
+
+#fnv2 %>% group_by(`Unique?`) %>% summarize(n()) 
+#fnv2 %>% group_by(Type) %>% summarize(n()) 
+
+#The shotgun damage should exclude excessive information about pellet damage. The
+#tabs found in the weapon name column should be removed. 
+fnv2
+dam_fun = function(x){str_replace(x, "(\\(.+\\))$", "")}
+tab_remove = function(x){str_replace(x, "\n", "")}
+fnv3 <- fnv2 %>% mutate_at("Damage Per Shot", dam_fun ) %>% mutate_at("Weapon Name", tab_remove)
+
+#The chance multiplier should exclude the preceding "x". 
+
+fnv4 <- fnv3 %>% mutate_at("Critical Chance Multiplier", function(x){str_replace(x, "^x", "")}) 
+  
+  
+# The Secondary Effect and secondary effect damage columns should be split into
+# secondary and tertiary effects. 
+
+fnv5 <- fnv4 %>% separate("Secondary Effect", sep = "(, |/)", into = c("Secondary Effect", "Tertiary Effect")) %>%
+  separate("Secondary Effect Damage", sep = "(, |/)", into = c("Secondary Effect Damage", "Tertiary Effect Damage"))
+
+#Magazine capacity should be split into magazine capacity and rounds per shot. 
+
+fnv6 <- fnv5 %>% separate("Magazine Capacity", sep = "\\(", into = c("Magazine Capacity", "Shots Per Reload")) %>%
+  mutate_at("Shots Per Reload", function(x){str_replace(x, "\\)", "")})
+
+
+#All variables should have their data types conform to the the values they take.
+
+fnv_7 <- fnv6 %>% summarize_all(type.convert) %>% mutate_at("Action Point Cost", as.numeric) %>%
+  mutate_at("Damage Per Action Point", as.numeric) %>% mutate_at("Unique?", as.logical)
+
+#All levels of the Dependency variable need to be consolidated: some values which
+#should be equal are not in the dataframe's current state. Also, NA values in
+#Shots Per Reload should be replaced with 1, and NA values in secondary and tertiary
+#effects should be replaced with "none", NA values in secondary and tertiary 
+#effect damage should be 0, and NA values in area of effect should be 0.
+
+fnv_tidy <- fnv_7 %>% mutate_at("Dependency", function(x){str_replace(x, "['’]", "")}) %>%
+  mutate_at("Shots Per Reload", function(x){ifelse(is.na(x), .$`Magazine Capacity`, x)}) %>%
+  mutate_at(c("Secondary Effect", "Tertiary Effect"), function(x){ifelse(is.na(x), "none", levels(fnv_7$`Secondary Effect`)[x])}) %>%
+  mutate_at(c("Secondary Effect Damage", "Tertiary Effect Damage"), function(x){ifelse(is.na(x), 0, x)}) %>%
+  mutate_at("Area of Effect", function(x){replace_na(x, 0)}) %>%
+  mutate_at("Critical Hit Damage", function(x){replace_na(x, 0)})
+
+#Below is the final code, tidy and ready for further analysis.
+
+fnv_tidy
 ```
 
 ### Cluster Analysis
 
+
 ```{R}
 library(cluster)
-# clustering code here
+library(GGally)
+silwidths <- vector()
+# fnv_for_pam <- fnv_tidy
+fnv_limited <- fnv_tidy %>% select("Weapon Value in Caps", "Weapon Weight", "Damage Per Shot", "Unique?", "Critical Hit Damage") %>% mutate_if(is.character, as.factor) %>% na.omit()
+
+gower <- fnv_limited %>% daisy(fnv_tidy, metric="gower")
+for(i in 2:10){
+fnv_pam <- pam(gower, diss = TRUE, k = i)
+silwidths[i] <- fnv_pam$silinfo$avg.width
+#ifelse(silwidths[2] < fnv_pam$silinfo$avg.width, silwidths <- c(i, fnv_pam$silinfo$avg.width), silwidths<-silwidths)
+}
+#silwidths
+ggplot()+geom_line(aes(x=1:10, y=silwidths)) + scale_x_continuous(name="k", breaks=1:10)
+fnv_pam <- pam(gower, k = 2)
+
+
+
+fnv_limited %>% ggpairs(aes(color = as.factor(fnv_pam$clustering)), columnLabels = c("Value", "Weight", "DPS", "Unique?", "Critical Damage"))
 ```
 
-Discussion of clustering here
-    
+I performed PAM clustering on Weapon Value in Caps, Weapon Weight, Weapon Damage Per Shot, Unique, and Critical Hit Damage. I purposefully limited the number of variables to those I believed would have a significant connection. The most well-fitted clustering over these variables occurs with 2 medoids. It appears that the clusters seem to mainly differ by "Unique" status, with the mostly "Unique" cluster shown in red and the mostly "Non-unique" cluster shown in blue. The Red cluster tends to be less valuable than the blue cluster in terms of monetary value, but tends to deal (slightly) more critical damage and damage per second. The red cluster also tends to weigh more than the blue cluster.
     
 ### Dimensionality Reduction with PCA
 
+
 ```{R}
-# PCA code here
+#fnv_tidy %>% select("Damage Per Shot", "Rate of Fire", "Weapon Weight", "Critical Hit Damage", "Secondary Effect Damage", "Tertiary Effect Damage", "Skill Required", "Strength Required") %>% 
+#  na.omit() %>% scale() -> fnv_pca
+fnv_tidy_names <- fnv_tidy
+
+fnv_tidy_names <- fnv_tidy_names %>% column_to_rownames("Weapon Name")
+
+
+fnv_tidy_names %>% select_if(is.numeric) %>% select(-"Area of Effect") %>% 
+  na.omit() %>% scale() -> fnv_pca
+
+  fnv_pca <- fnv_pca %>% princomp(cor=T)
+  
+  
+  rownames(fnv_pca$scores)
+
+
+#Finding the PCs of the data
+fnv_pca$scores
+summary(fnv_pca, loadings = T)
+
+#Visualizing the amount of variation explaining per principal component.
+fnv_eigen <- fnv_pca$sdev^2
+varprop=round(fnv_eigen/sum(fnv_eigen), 2)
+ggplot() + geom_bar(aes(y=varprop, x=1:18), stat="identity") + xlab("") + geom_path(aes(y=varprop, x=1:18)) + 
+  geom_text(aes(x=1:18, y=varprop, label=round(varprop, 2)), vjust=1, col="white", size=5) + 
+  scale_y_continuous(breaks=seq(0, .6, .2), labels = scales::percent) + 
+  scale_x_continuous(breaks=1:10)
+
+fnv_pca_plot <-  data.frame(PC1=fnv_pca$scores[, 1], PC2=fnv_pca$scores[, 2], PC3 = fnv_pca$scores[ , 3])
+scores<- fnv_pca$scores
+#Finding "landmark" weapons 
+scores[,1] %>% sort() #Lowest PC1 score is gatling laser, highest is flare gun. Varmint rifle at 2.635
+scores[,2] %>% sort() #Lowest PC2 score is silenced .22 smg, highest is the medicine stick
+scores[,3] %>% sort() #Lowest PC3 score is the heavy incinerator, highest is the alien blaster.
+
+#Graphing the first three (technically) PCs
+fnv_pca_plot %>% ggplot(aes(x = PC1, y = PC2)) + geom_point(size = 4, aes(color = PC3)) +
+  labs(title = "Principal Component Analysis of Weapons in Fallout") + theme_dark() + 
+  annotate("text", x = -8.25, y = -4.2, label="Gatling Laser") + 
+  annotate("text", x = 0.25, y = 5.2, label = "Medicine Stick") +
+  annotate("text", x = scores[,1][rownames(scores) == "varmint rifle"] - 0.25, y = scores[,2][rownames(scores) == "varmint rifle"], label = "Varmint Rifle", size = 3) 
 ```
 
-Discussions of PCA here. 
+I performed principal component analysis across all numeric variables in the data (excluding Area of Effect) for weapons that have values for such variables (essentially all of the ballistic and energy weapons). The first 6 components describe an acceptable amount of variation (0.80) across all 18 variables. PC1 tends to negatively correlate with variables that more effective weapons score highly in: as PC1 increases, skill and strength required to wield the weapon, the weapon weight and value, durability, magazine capacity, weapon spread, and damage per second all decrease, which means that we can expect to find more effective (and heavier) weapons as PC1 decreases. PC2 seems to indicate that the weapon is a semi-automatic rifle the higher the PC2 score is; such weapons tend to require more skill and strength, but also deal more damage per shot, have a higher monetary value, a slower rate of fire, and higher critical damage. PC3 seems to indicate the weapon's similarity to a pistol or energy pistol; weapons that score highly in PC3 are lighter, more valuable, have higher rates of fire and damage per second,and require less skill to use.
 
 ###  Linear Classifier
 
 ```{R}
-# linear classifier code here
+fnv_linear <- fnv_tidy_names %>% select("Damage Per Second", "Damage Per Shot", "Rate of Fire", "Action Point Cost", "Damage Per Action Point", "Weapon Durability in Shots Until Breaking", "Weapon Weight", "Skill Required", "Strength Required", "Secondary Effect Damage", "Unique?") %>% na.omit()
+y_hat = vector()
+#y = fnv_linear$`Unique?`
+#accuracy = vector()
+#y
+#For Damage per Second
+#y_hat <- ifelse(fnv_linear$`Damage Per Second` > 300, T, F)
+#table(y, y_hat)
+#mean(y == y_hat)
+#for(i in seq(1, 450, 1)){
+#  y_hat <- ifelse(fnv_linear$`Damage Per Second`  > i, T, F)
+#  accuracy[i] <- mean(y==y_hat)
+#}
+names <- rownames(fnv_linear)
+
+rownames(fnv_linear) <- names
+
+#Multiple Linear Regression 
+model <- glm(`Unique?`~., data = fnv_linear)
+predict(model, type = "response")
+y_hat <- ifelse(predict(model) > 0.5, TRUE, FALSE)
+
+
+#class_diag used to interpret strength of prediction
+diag <- class_diag(predict(model), fnv_linear$`Unique?`, TRUE, cutoff=0.5)
+diag
+
+#Confusion Matrix
+table(y_hat, y = fnv_linear$`Unique?`)
+
+
+#Garbage
+#diagsummary(fnv_linear_pca, loadings = T)
+#PC1 <- fnv_linear_pca$scores[,1]
+#PC2 <- fnv_linear_pca$score[,2]
+#reg <- lm()
+#y <- factor(y, levels = c("TRUE", "FALSE"))
+#x <- fnv_linear$`Damage Per Second`
+#class_diag(x, y, positive = "TRUE", cutoff = 100)
+#qplot(y=accuracy) + geom_line() + scale_x_continuous(breaks=seq(0, 450, 50))
 ```
 
 ```{R}
+
 # cross-validation of linear classifier here
+library(caret)
+k = 10
+data <- fnv_linear[sample(nrow(fnv_linear)),]
+folds <- cut(seq(1:nrow(fnv_linear)), breaks = k, labels=F)
+diags = NULL
+
+for(i in 1:k){
+  train<-data[folds!=i,]
+  test<-data[folds==i,]
+  truth<-test$`Unique?`
+  
+  fit <-glm(`Unique?`~.,data=train, family="binomial")
+  
+  probs<-predict(fit,newdata=test, type="response")
+  
+  diags<-rbind(diags,class_diag(probs, truth, positive = T))
+}
+
+diags %>% summarize_all(mean)
+
 ```
 
-Discussion here
+I will be predicting the unique status of a weapon by analyzing the weapon's Damage Per Second, Damage per shot, Rate of Fire, AP cost, AP damage, durability, weight, skill, strength, and secondary effect damage. Some observations in the dataset must be excluded (specifically the weapon types "placed", "explosive thrown" and "melee thrown") because some of the above variables do not apply to them. According to the class_diag function, the GLM is capable of fitting the model with an AUC of 0.75, which is not (by the standards of this course) a great result, but is still indicative of some amount of practicality to our model. The model also reported an accuracy of 0.7, and a confusion matrix indicating that the specifity of our model is its strong suit.
+In regards to k-fold cv, the model seems to perform much worse. The average AUC for a k-fold cv (k = 10) was found to be 0.683, a drop of 0.067 from the AUC calculated on the dataset as a whole, indicating that the model is overfitted.
 
 ### Non-Parametric Classifier
 
+
 ```{R}
 library(caret)
+library(rpart)
+library(rpart.plot)
 # non-parametric classifier code here
+fnv_linear_2 <- fnv_linear %>% mutate_at("Unique?", function(x){ifelse(x, 1, 0)}) %>% rename(unique = `Unique?`)
+fnv_linear_2 <- fnv_linear_2 %>% mutate_at("unique", as.logical)
+fit <- rpart(unique~., data=fnv_linear_2)
+fit %>% rpart.plot()
+fit
+
+
+rownames(fnv_linear_2) <- names
+colnames(fnv_linear_2) <- make.names(colnames(fnv_linear_2))
+
+fnv_parametric <- fnv_linear_2 %>% select(-unique)
+#train_fit <- train(unique~., data=fnv_linear_2, method = "rpart")
+#train_fit$bestTune
+#rpart.plot(train_fit$finalModel) # It appears that this code results in a single-node tree for some reason. 
+predict(fit)
+length(predict(fit))
+class_diag(predict(fit), fnv_linear_2$unique, positive = 1, cutoff=0.5)
+
+#Confusion Matrix
+y_hat <- ifelse(predict(fit) > 0.5, 1, 0)
+table(y_hat, y = fnv_linear_2$unique)
 ```
 
 ```{R}
 # cross-validation of np classifier here
+predict(fit)
+
+k = 10
+data <- fnv_linear_2[sample(nrow(fnv_linear_2)),]
+folds <- cut(seq(1:nrow(fnv_linear_2)), breaks = k, labels=F)
+diags = NULL
+
+for(i in 1:k){
+  train<-data[folds!=i,]
+  test<-data[folds==i,]
+  truth<-test$unique
+  
+  fit <-rpart(unique~., data=fnv_linear_2)
+  
+  probs<-predict(fit,newdata=test)
+  
+  diags<-rbind(diags,class_diag(probs, truth, positive = 1))
+}
+
+diags %>% summarize_all(mean)
 ```
 
-Discussion
+I decided to use a classification tree to predict the unique status across the numerical variables described in the previous section. The class_diag reveals that the classification tree is quite effective at predicting unique status (better than linear regression in terms of AUC by approx. 0.08, and better in terms of accuracy by 0.076). The confusion matrix furthermore confirms that the classification tree is a much better predictor of unique status, as the number of false negatives has dropped by 29, though the number of false positives has increase by 15. Upon k-fold cross validation, the tree is shown to be even resilient against overfitting, with the AUC only dropping by a mere 0.0049 units in relation to prediction on the whole dataset.
 
 
 ### Regression/Numeric Prediction
 
+
 ```{R}
 # regression model code here
+y_hat = vector()
+mse <- function(yhat, y){mean((y - yhat)^2)}
+#I've been putting this off long enough, and now it is time to eliminate all NAs from my fnv_tidy data.
+#First, if.numeric and if.na, set to 0. If shots til breaking is equal to 0, set it to one. For ammo type,
+#if.na, then replace with none.
+
+fnv_ultidy <- as.data.frame(fnv_tidy) %>% mutate_if(is.numeric, function(x){ifelse(is.na(x), 0, x)}) %>% column_to_rownames("Weapon Name")
+fnv_ultidy <- fnv_ultidy %>% mutate_at("Weapon Durability in Shots Until Breaking", function(x){ifelse(x == 0, 1, x)})
+fnv_ultidy <- fnv_ultidy %>% mutate_at("Ammunition Type", function(x){ifelse(is.na(x), "none", levels(fnv_ultidy$`Ammunition Type`)[x])})
+fnv_ultidy %>% filter("Secondary Effect" != "poison") %>% filter(!duplicated("Ammunition Type")) -> fnv_ultidy
+
+
+#Multiple Linear Regression 
+model <- glm(`Weapon Weight`~`Weapon Value in Caps` + `Damage Per Second`, data = fnv_ultidy)
+y_hat <- predict(model, type = "response")
+
+#MSE Prediction
+square <- mse(y_hat, fnv_ultidy$`Weapon Weight`)
+
+square
+
+model <- glm(`Weapon Weight`~., data = fnv_ultidy)
+y_hat <- predict(model, type = "response")
+square <- mse(y_hat, fnv_ultidy$`Weapon Weight`)
+
+square
 ```
 
 ```{R}
 # cross-validation of regression model here
-```
 
-Discussion
+
+
+k = 10
+data <- fnv_ultidy[sample(nrow(fnv_ultidy)),]
+folds <- cut(seq(1:nrow(fnv_ultidy)), breaks = k, labels=F)
+mses = NULL
+
+for(i in 1:k){
+  train<-data[folds!=i,]
+  test<-data[folds==i,]
+  truth<-test$`Weapon Weight`
+
+  
+  fit <-glm(`Weapon Weight`~ `Weapon Value in Caps` + `Damage Per Second`,data=train)
+  
+  probs<-predict(fit,newdata=test, type="response")
+  
+  mses<-rbind(mses, mse(probs, truth))
+}
+
+as.data.frame(mses) %>% summarize_all(mean)
+```
+The MSE of the overall dataset is 3.05597. Unfortunately, I encountered strange errors when performing k-folds on the entire dataset, and thus decided to predict weapon weight from weapon value and damage per second instead. The MSE of the subset is 24.677, and k-folds cv (k = 10) yielded and average MSE of 26.647, indicating that overfitting is, relatively, a small problem, though the original effectiveness of the data does not indicate that the variables are related from the start.
 
 ### Python 
 

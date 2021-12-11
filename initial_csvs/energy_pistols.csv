@@ -1,0 +1,18 @@
+Weapon Name,Damage Per Shot,Damage Per Second,Rate of Fire,Critical Chance Multiplier,Critical Hit Damage,Action Point Cost,Damage Per Action Point,Weapon Spread,Ammunition Type,Magazine Capacity,Weapon Durability in Shots Until Breaking,Weapon Weight,Weapon Value in Caps,Value to Weight Ratio,Skill Required,Strength Required,Dependency,Unique?,Secondary Effect,Secondary Effect Damage
+Alien Blaster,75,131.3,1.8,x100,50,20,3.75,0,Alien PC,10,2495,2,4000,2000,75,1,Main,T,NA,NA
+Euclid's C-Finder,150,20.6,0.2,x50,0,50,3,0.5,Arch II charge,1,3995,15,1,0.07,0,1,Main,T,NA,NA
+Flare Gun,10,3.4,1.8,x1.5,10,30,0.67,0.5,Flamer fuel,10,245,2,500,250,0,3,Lonesome Road,F,Fire,10
+Laser Pistol,12,45,3.75,x1.5,12,15,0.8,0.1,SEC,30,995,3,175,58.3,0,1,Main,F,NA,NA
+Compliance Regulator,8,30,3.75,x1.5,12,15,0.53,0.1,SEC,30,995,3,175,58.3,0,1,Honest Hearts,F,NA,NA
+Missing Laser Pistol,11,41.3,3.8,x1.5,11,15,0.73,0.1,SEC,30,995,3,175,58.3,0,1,Main,T,NA,NA
+Pew Pew,75,150,2,x2.5,50,35,2.14,0.1,SEC,10(2),395,3,2498,832.6,0,1,Main,T,NA,NA
+Plasma Defender,38,95,2.5,x 1,38,20,1.9,0.3,SEC,32(16),495,2,3000,1500,50,2,Main,F,NA,NA
+Plasma Pistol,33,57.8,1.75,x1.5,33,30,1.1,0.5,SEC,32(16),745,3,200,66.6,0,2,Main,F,NA,NA
+Pulse Gun,5,5.17,1,x1,5,20,0.25,0.1,SEC,25(5),495,2,1800,900,25,2,Main,F,EMP,110
+Recharger Pistol,18,90,5,x1.2,18,13,1.38,0.1,MF breeder,20,1495,7,2700,385.7,50,2,Main,F,NA,NA
+MF Hyperbreeder Alpha,25,175,7,x2,25,20,1.25,1,MF breeder,10,3995,7,8900,1271.4,50,2,Gun Runner's Arsenal,T,NA,NA
+Sonic Emitter - Gabriel's Bark,55,56.9,1.03,x1,25,30,1.83,0.1,SEC,24(12),495,2,3500,1750,50,2,Old World Blue's,F,EMP,20
+Sonic Emitter  - Opera Singer,55,56.9,1.03,x1,25,30,1.83,0.1,SEC,24,495,2,3500,1750,50,2,Old World Blue's,F,EMP,20
+Sonic Emitter - Revelation,31,32.1,1.03,x1,18,30,1.03,0.1,SEC,24,495,2,3500,1750,50,2,Old World Blue's,F,EMP,20
+Sonic Emitter - Robo-scorpion,65,67.2,1.03,x1,30,30,2.16,0.1,SEC,24(8),495,2,3500,1750,75,2,Old World Blue's,F,EMP,20
+Sonic Emitter - Tarantula,60,62.1,1.03,x1,30,30,2,0.1,SEC,24,495,2,3500,1750,75,2,Old World Blue's,F,EMP,20

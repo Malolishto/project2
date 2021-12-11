@@ -1,0 +1,13 @@
+Weapon Name,Damage Per Shot,Area of Effect,Damage Per Second,Rate of Fire,Action Point Cost,Damage Per Action Point,Weapon Weight,Weapon Value in Caps,Value to Weight Ratio,Skill Required,Strength Required,Dependency,Unique?,Secondary Effect,Secondary Effect Damage
+Dynamite,1,750,30,0.4,24,3.17,0.3,25,83,0,1,main,F,Explosive,75
+Fire bomb,1,212,12.5,0.4,24,2.2,0.5,200,400,50,2,Honest Hearts,F,"Explosive, Fire","20, 32"
+Flash bang,1,768,0.65,0.65,24,0.04,0.5,50,100,50,4,Lonesome Road,F,NA,NA
+Frag grenade,1,900,82.2,0.65,24,5.3,0.5,150,300,25,2,main,F,Explosive,125
+Holy Frag Grenade,1,1500,522.4,0.65,24,33.4,0.5,500,1000,0,2,main,T,Explosive,800
+Incendiary grenade,1,450,39.3,0.65,24,5.87,0.5,200,400,50,2,main,F,"Explosive, Fire","50, 90"
+Long-fuse dynamite,1,750,30.8,0.4,24,3.17,0.3,25,83,0,1,main,F,Explosive,75
+MFC grenade,1,600,49.6,0.65,35,2.17,0.5,15,30,25,2,gun runner’s arsenal,F,Explosive,75
+Nuka-grenade,1,450,230.9,0.65,24,15.04,0.5,50,100,100,2,gun runner’s arsenal,F,"Explosive, Fire","350, 10"
+Plasma grenade,1,450,147.4,0.65,24,9.4,0.5,300,600,75,2,main,F,Explosive,225
+Pulse grenade,1,750,7.2,0.65,24,0.45,0.5,40,80,50,2,main,F,"Explosive, EMP","10, 200"
+Tin grenade,1,768,65.8,0.65,35,2.89,0.5,25,50,0,2,gun runner’s arsenal,F,Explosive,100
