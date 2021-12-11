@@ -431,17 +431,27 @@ The MSE of the overall dataset is 3.05597. Unfortunately, I encountered strange 
 
 ```{R}
 library(reticulate)
+rate_of_fire <-fnv_ultidy$`Rate of Fire`
+ammo <- fnv_ultidy$`Ammunition Type`
+
 ```
 
 ```{python}
-# python code here
+r.rate_of_fire
+r.ammo
+
+hello = "Hello R!"
 ```
 
-Discussion
+```{R}
+
+py$hello
+```
+In the above coding chunks, I demonstrated how variables can be shared between the two coding consoles with the help of the "reticulate" package. I was able to extract two columns from fnv_ultidy and open them in a python coding chunk, and likewise I was able to make a str variable in python and run it in an R coding chunk.
 
 ### Concluding Remarks
 
-Include concluding remarks here, if any
+This assignment was extremely difficult, and I believe I ran into an actual bug (or at least I hear so on (stack overflow)[https://stackoverflow.com/questions/22315394/factor-has-new-levels-error-for-variable-im-not-using]) while performing a lienar regression on the entire dataset, which seriously hindered my efforts to answer that question and unfortunately has caused me to miss out on an extremely interesting side to this dataset. Other than this, I greatly enjoyed this project, and will continue to search for a solution to this bug. This game has a massive modding community, and I believe that this assignment could help modders create items that fit cohesively into the game's world. That is all for now. Thank you for all the help you have given us!
 
 
 
